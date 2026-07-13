@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="FlyDealz.lk - Your Premium Corporate Travel Partner in Sri Lanka">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'FlyDealz.lk - Experience Premium Travel')</title>
     
     <!-- Fonts -->
@@ -27,13 +28,15 @@
 <body class="bg-light-bg text-slate-800 font-sans antialiased flex flex-col min-h-screen">
 
     <!-- Global Booking Modal (Alpine.js State) -->
-    <div x-data="{ bookingModalOpen: false, bookingData: { from: '', to: '', date: '', passengers: 1 } }" 
+    <div x-data="{ bookingModalOpen: false, bookingData: { flight_type: 'one-way', customer_name: '', customer_email: '', customer_phone: '', whatsapp_number: '', home_address: '', departure_location: '', destination_location: '', travel_date: '', return_date: '', passengers: 1, message: '' } }" 
          @open-booking.window="
             bookingModalOpen = true;
             if ($event.detail) {
-                bookingData.from = $event.detail.from || '';
-                bookingData.to = $event.detail.to || '';
-                bookingData.date = $event.detail.date || '';
+                bookingData.flight_type = $event.detail.flight_type || 'one-way';
+                bookingData.departure_location = $event.detail.from || '';
+                bookingData.destination_location = $event.detail.to || '';
+                bookingData.travel_date = $event.detail.date || '';
+                bookingData.return_date = $event.detail.returnDate || '';
                 bookingData.passengers = $event.detail.passengers || 1;
             }
          ">

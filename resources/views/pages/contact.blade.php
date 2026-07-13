@@ -82,9 +82,26 @@
             <!-- Right: Inquiry Form (Alpine.js state) -->
             <div class="w-full lg:w-2/3" x-data="{ 
                 formSubmitted: false,
+                formData: { name: '', email: '', phone: '', subject: '', message: '' },
                 submitForm() {
-                    this.formSubmitted = true;
-                    setTimeout(() => { this.formSubmitted = false; $el.reset(); }, 5000);
+                    fetch('/api/contacts', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                        },
+                        body: JSON.stringify(this.formData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.success) {
+                            this.formSubmitted = true;
+                            setTimeout(() => { 
+                                this.formSubmitted = false; 
+                                this.formData = { name: '', email: '', phone: '', subject: '', message: '' };
+                            }, 5000);
+                        }
+                    });
                 }
             }">
                 <div class="bg-white p-8 md:p-10 rounded-2xl shadow-xl">
@@ -102,22 +119,22 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-1">Full Name *</label>
-                                <input type="text" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-pink focus:border-primary-pink transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="John Doe">
+                                <input type="text" x-model="formData.name" required minlength="3" maxlength="100" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-pink focus:border-primary-pink transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="John Doe">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-1">Email Address *</label>
-                                <input type="email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-pink focus:border-primary-pink transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="john@example.com">
+                                <input type="email" x-model="formData.email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-pink focus:border-primary-pink transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="john@example.com">
                             </div>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-1">Phone Number *</label>
-                                <input type="tel" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-pink focus:border-primary-pink transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="Your mobile number">
+                                <input type="tel" x-model="formData.phone" required pattern="[0-9\+\-\s]+" minlength="9" maxlength="15" oninput="this.value = this.value.replace(/[^0-9\+]/g, '')" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-pink focus:border-primary-pink transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="e.g. 0770000000">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-1">Subject *</label>
-                                <select required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-pink focus:border-primary-pink transition-colors outline-none bg-gray-50 focus:bg-white text-slate-700">
+                                <select x-model="formData.subject" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-pink focus:border-primary-pink transition-colors outline-none bg-gray-50 focus:bg-white text-slate-700">
                                     <option value="" disabled selected>Select an option</option>
                                     <option value="flight">Flight Booking</option>
                                     <option value="holiday">Holiday Package</option>
@@ -130,7 +147,7 @@
 
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Your Message *</label>
-                            <textarea rows="5" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-pink focus:border-primary-pink transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="How can we help you?"></textarea>
+                            <textarea x-model="formData.message" rows="5" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-pink focus:border-primary-pink transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="How can we help you?"></textarea>
                         </div>
 
                         <button type="submit" class="w-full md:w-auto bg-primary-pink hover:bg-pink-500 text-white font-semibold py-3 px-10 rounded-lg shadow-md transition-colors flex items-center justify-center">

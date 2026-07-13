@@ -37,7 +37,7 @@
 
 <!-- 2. Flight Search / Booking UI (Floating over Hero) -->
 <section class="relative z-20 -mt-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border-t-4 border-navy-blue" x-data="{ journeyType: 'one-way', searchForm: { from: 'Colombo', to: '', date: '', passengers: 1 } }">
+    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border-t-4 border-navy-blue" x-data="{ journeyType: 'one-way', searchForm: { from: 'Colombo', to: '', date: '', returnDate: '', passengers: 1 } }">
         
         <!-- Tabs -->
         <div class="flex space-x-6 border-b border-gray-200 mb-6 pb-2">
@@ -50,7 +50,7 @@
         </div>
 
         <!-- Form -->
-        <form @submit.prevent="$dispatch('open-booking', searchForm)" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+        <form @submit.prevent="$dispatch('open-booking', { ...searchForm, flight_type: journeyType })" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
             
             <div class="col-span-1 lg:col-span-1">
                 <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">From</label>
@@ -79,7 +79,7 @@
 
             <div class="col-span-1 lg:col-span-1" x-show="journeyType === 'return'">
                 <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Return</label>
-                <input type="date" min="{{ date('Y-m-d') }}" class="w-full px-3 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary-pink focus:border-primary-pink outline-none text-navy-blue font-medium bg-gray-50">
+                <input type="date" x-model="searchForm.returnDate" min="{{ date('Y-m-d') }}" class="w-full px-3 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary-pink focus:border-primary-pink outline-none text-navy-blue font-medium bg-gray-50">
             </div>
 
             <div class="col-span-1 lg:col-span-1">
@@ -203,71 +203,33 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <!-- Offer 1 -->
+            @foreach($packages as $package)
             <div class="bg-white rounded-2xl p-6 shadow-xl relative border-t-4 border-primary-pink hover:-translate-y-2 transition-transform duration-300">
+                @if($loop->first)
                 <div class="absolute top-0 right-0 bg-primary-pink text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wide">Featured</div>
+                @endif
                 <div class="flex items-center gap-2 text-slate-500 text-xs font-medium mb-4 mt-2">
-                    <span><i class="fa-solid fa-calendar-day mr-1"></i> Valid this week</span>
-                    <span><i class="fa-solid fa-suitcase-rolling mr-1"></i> 30kg</span>
+                    <span><i class="fa-solid fa-calendar-day mr-1"></i> {{ $package->duration_days }} Days</span>
                 </div>
                 <h3 class="text-2xl font-bold text-navy-blue mb-2 flex items-center justify-between">
-                    Colombo 
+                    {{ $package->departure_location }} 
                     <i class="fa-solid fa-arrow-right-arrow-left text-gray-300 text-lg mx-2"></i> 
-                    Jaffna
+                    {{ $package->destination->name ?? $package->title }}
                 </h3>
-                <p class="text-slate-600 mb-6 text-sm line-clamp-2">Experience the cultural capital of the north with our direct premium flights.</p>
+                <p class="text-slate-600 mb-6 text-sm line-clamp-2"><strong>{{ $package->title }}</strong> - {{ $package->description ?? 'Experience our premium flight packages with exclusive deals.' }}</p>
                 <div class="border-t border-gray-100 pt-4 mb-6">
                     <p class="text-xs text-slate-400 uppercase font-bold tracking-wide mb-1">Starting from</p>
-                    <p class="text-2xl font-black text-navy-blue">LKR 15,000 <span class="text-xs font-normal text-slate-500">/ one way</span></p>
+                    <p class="text-2xl font-black text-navy-blue">LKR {{ number_format($package->price, 2) }} <span class="text-xs font-normal text-slate-500"></span></p>
                 </div>
-                <button @click="$dispatch('open-booking')" class="w-full bg-primary-pink hover:bg-pink-500 text-white font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors text-sm">
+                <button @click="$dispatch('open-booking', { from: '{{ addslashes($package->departure_location) }}', to: '{{ addslashes($package->destination->name ?? $package->title) }}' })" class="w-full bg-primary-pink hover:bg-pink-500 text-white font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors text-sm">
                     Book Now
                 </button>
             </div>
-
-            <!-- Offer 2 -->
-            <div class="bg-white rounded-2xl p-6 shadow-xl relative border-t-4 border-royal-blue hover:-translate-y-2 transition-transform duration-300">
-                <div class="flex items-center gap-2 text-slate-500 text-xs font-medium mb-4 mt-2">
-                    <span><i class="fa-solid fa-calendar-day mr-1"></i> Limited Seats</span>
-                    <span><i class="fa-solid fa-suitcase-rolling mr-1"></i> 40kg</span>
-                </div>
-                <h3 class="text-2xl font-bold text-navy-blue mb-2 flex items-center justify-between">
-                    Colombo 
-                    <i class="fa-solid fa-arrow-right-arrow-left text-gray-300 text-lg mx-2"></i> 
-                    Chennai
-                </h3>
-                <p class="text-slate-600 mb-6 text-sm line-clamp-2">Quick and comfortable flights to Chennai. Perfect for business and medical travel.</p>
-                <div class="border-t border-gray-100 pt-4 mb-6">
-                    <p class="text-xs text-slate-400 uppercase font-bold tracking-wide mb-1">Starting from</p>
-                    <p class="text-2xl font-black text-navy-blue">LKR 28,500 <span class="text-xs font-normal text-slate-500">/ return</span></p>
-                </div>
-                <button @click="$dispatch('open-booking')" class="w-full bg-navy-blue hover:bg-royal-blue text-white font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors text-sm">
-                    Book Now
-                </button>
-            </div>
-
-            <!-- Offer 3 -->
-            <div class="bg-white rounded-2xl p-6 shadow-xl relative border-t-4 border-royal-blue hover:-translate-y-2 transition-transform duration-300">
-                <div class="flex items-center gap-2 text-slate-500 text-xs font-medium mb-4 mt-2">
-                    <span><i class="fa-solid fa-calendar-day mr-1"></i> Early Bird</span>
-                    <span><i class="fa-solid fa-suitcase-rolling mr-1"></i> 30kg</span>
-                </div>
-                <h3 class="text-2xl font-bold text-navy-blue mb-2 flex items-center justify-between">
-                    Colombo 
-                    <i class="fa-solid fa-arrow-right-arrow-left text-gray-300 text-lg mx-2"></i> 
-                    Dubai
-                </h3>
-                <p class="text-slate-600 mb-6 text-sm line-clamp-2">Direct flights to Dubai with premium service and extra baggage allowance.</p>
-                <div class="border-t border-gray-100 pt-4 mb-6">
-                    <p class="text-xs text-slate-400 uppercase font-bold tracking-wide mb-1">Starting from</p>
-                    <p class="text-2xl font-black text-navy-blue">LKR 85,000 <span class="text-xs font-normal text-slate-500">/ return</span></p>
-                </div>
-                <button @click="$dispatch('open-booking')" class="w-full bg-navy-blue hover:bg-royal-blue text-white font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors text-sm">
-                    Book Now
-                </button>
-            </div>
-
+            @endforeach
+            
+            @if($packages->isEmpty())
+                <p class="text-center text-white col-span-3">More exclusive offers coming soon!</p>
+            @endif
         </div>
     </div>
 </section>
@@ -281,50 +243,29 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Dest 1 -->
+            @foreach($destinations as $dest)
             <div class="group rounded-2xl overflow-hidden relative shadow-sm hover:shadow-xl transition-all duration-300 bg-white">
-                <div class="h-64 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80" alt="Dubai" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
+                    @if($dest->image)
+                        <img src="{{ asset('storage/' . $dest->image) }}" alt="{{ $dest->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    @else
+                        <i class="fa-solid fa-map-location-dot fa-4x text-gray-300 group-hover:scale-110 transition-transform duration-500"></i>
+                    @endif
                 </div>
-                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-navy-blue text-xs font-bold px-3 py-1 rounded-full shadow">Middle East</div>
+                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-navy-blue text-xs font-bold px-3 py-1 rounded-full shadow">Destination</div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-navy-blue mb-2">Dubai, UAE</h3>
-                    <p class="text-slate-500 text-sm mb-4 line-clamp-2">Experience the pinnacle of luxury, towering skyscrapers, and world-class shopping.</p>
-                    <button @click="$dispatch('open-booking')" class="text-primary-pink font-semibold hover:text-pink-600 transition-colors flex items-center">
+                    <h3 class="text-xl font-bold text-navy-blue mb-2">{{ $dest->name }}</h3>
+                    <p class="text-slate-500 text-sm mb-4 line-clamp-2">{{ $dest->description ?? 'Discover the beauty and culture of this amazing destination.' }}</p>
+                    <button @click="$dispatch('open-booking', { to: '{{ $dest->name }}' })" class="text-primary-pink font-semibold hover:text-pink-600 transition-colors flex items-center">
                         Explore Flights <i class="fa-solid fa-chevron-right ml-2 text-xs"></i>
                     </button>
                 </div>
             </div>
-
-            <!-- Dest 2 -->
-            <div class="group rounded-2xl overflow-hidden relative shadow-sm hover:shadow-xl transition-all duration-300 bg-white">
-                <div class="h-64 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80" alt="Singapore" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                </div>
-                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-navy-blue text-xs font-bold px-3 py-1 rounded-full shadow">Asia</div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-navy-blue mb-2">Singapore</h3>
-                    <p class="text-slate-500 text-sm mb-4 line-clamp-2">A futuristic garden city blending incredible architecture with rich cultural heritage.</p>
-                    <button @click="$dispatch('open-booking')" class="text-primary-pink font-semibold hover:text-pink-600 transition-colors flex items-center">
-                        Explore Flights <i class="fa-solid fa-chevron-right ml-2 text-xs"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Dest 3 -->
-            <div class="group rounded-2xl overflow-hidden relative shadow-sm hover:shadow-xl transition-all duration-300 bg-white">
-                <div class="h-64 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80" alt="London" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                </div>
-                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-navy-blue text-xs font-bold px-3 py-1 rounded-full shadow">Europe</div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-navy-blue mb-2">London, UK</h3>
-                    <p class="text-slate-500 text-sm mb-4 line-clamp-2">Immerse yourself in history, royal heritage, and cutting-edge fashion.</p>
-                    <button @click="$dispatch('open-booking')" class="text-primary-pink font-semibold hover:text-pink-600 transition-colors flex items-center">
-                        Explore Flights <i class="fa-solid fa-chevron-right ml-2 text-xs"></i>
-                    </button>
-                </div>
-            </div>
+            @endforeach
+            
+            @if($destinations->isEmpty())
+                <p class="text-center text-muted col-span-3">More destinations coming soon!</p>
+            @endif
         </div>
     </div>
 </section>
