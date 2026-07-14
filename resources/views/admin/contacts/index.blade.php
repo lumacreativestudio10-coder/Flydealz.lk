@@ -5,11 +5,11 @@
     <h2 class="h3 text-gray-800">Customer Inquiries</h2>
 </div>
 
-<div class="card shadow mb-4 border-0">
+<div class="card shadow-sm mb-4 border-0" style="border-radius: 15px; overflow: hidden; border-top: 4px solid #fd7e14 !important;">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-dark">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
                     <tr>
                         <th>Date</th>
                         <th>Name</th>
@@ -44,7 +44,7 @@
                             <form action="{{ route('contacts.update', $contact) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('PUT')
-                                <select name="status" class="form-select form-select-sm d-inline w-auto" onchange="this.form.submit()">
+                                <select name="status" class="form-select form-select-sm d-inline w-auto rounded-pill shadow-sm" onchange="this.form.submit()">
                                     <option value="pending" {{ $contact->status == 'pending' ? 'selected' : '' }}>Pending</option>
                                     <option value="resolved" {{ $contact->status == 'resolved' ? 'selected' : '' }}>Resolve</option>
                                     <option value="dismissed" {{ $contact->status == 'dismissed' ? 'selected' : '' }}>Dismiss</option>

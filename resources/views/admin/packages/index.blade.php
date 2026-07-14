@@ -3,14 +3,14 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="h3 text-gray-800">Manage Packages</h2>
-    <a href="{{ route('packages.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add New Package</a>
+    <a href="{{ route('packages.create') }}" class="btn btn-primary rounded-pill shadow-sm px-4"><i class="bi bi-plus-lg"></i> Add New Package</a>
 </div>
 
-<div class="card shadow mb-4 border-0">
+<div class="card shadow-sm mb-4 border-0" style="border-radius: 15px; overflow: hidden; border-top: 4px solid #198754 !important;">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-dark">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
                     <tr>
                         <th>Title</th>
                         <th>Destination</th>
@@ -35,11 +35,11 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('packages.edit', $package) }}" class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i> Edit</a>
+                            <a href="{{ route('packages.edit', $package) }}" class="btn btn-sm btn-primary rounded-pill px-3"><i class="bi bi-pencil"></i> Edit</a>
                             <form action="{{ route('packages.destroy', $package) }}" method="POST" class="d-inline delete-form" data-confirm-message="Delete this package?">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
+                                <button class="btn btn-sm btn-danger rounded-pill px-3"><i class="bi bi-trash"></i> Delete</button>
                             </form>
                         </td>
                     </tr>

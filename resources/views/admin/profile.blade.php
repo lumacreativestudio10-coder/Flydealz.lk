@@ -7,9 +7,9 @@
 
 <div class="row">
     <div class="col-md-6">
-        <div class="card shadow border-0">
-            <div class="card-header bg-white py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Change Password</h6>
+        <div class="card shadow-sm border-0" style="border-radius: 15px; overflow: hidden; border-top: 4px solid #6c757d !important;">
+            <div class="card-header d-flex align-items-center justify-content-between" style="background: linear-gradient(to right, #f8f9fa, #ffffff); border-bottom: 1px solid #dee2e6; padding: 1rem 1.25rem;">
+                <h6 class="m-0 font-weight-bold text-secondary"><i class="bi bi-shield-lock me-2"></i>Change Password</h6>
             </div>
             <div class="card-body">
                 @if(session('success'))
@@ -45,7 +45,7 @@
                         <input type="password" name="password_confirmation" class="form-control" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-shield-lock me-2"></i> Update Password</button>
+                    <button type="submit" class="btn btn-secondary rounded-pill px-4 shadow-sm"><i class="bi bi-check-circle me-2"></i> Update Password</button>
                 </form>
             </div>
         </div>

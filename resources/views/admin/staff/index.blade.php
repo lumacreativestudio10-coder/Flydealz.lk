@@ -3,18 +3,18 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="h3 text-gray-800">Manage Staff</h2>
-    <a href="{{ route('staff.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add New Staff</a>
+    <a href="{{ route('staff.create') }}" class="btn btn-primary rounded-pill shadow-sm px-4"><i class="bi bi-plus-lg"></i> Add New Staff</a>
 </div>
 
 @if(session('success'))
     <div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
-<div class="card shadow mb-4 border-0">
+<div class="card shadow-sm mb-4 border-0" style="border-radius: 15px; overflow: hidden; border-top: 4px solid #0dcaf0 !important;">
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered table-hover align-middle">
-                <thead class="table-dark">
+                <thead class="table-light">
                     <tr>
                         <th>Photo</th>
                         <th>Name</th>
@@ -37,11 +37,11 @@
                         <td>{{ $member->name }}</td>
                         <td>{{ $member->role }}</td>
                         <td>
-                            <a href="{{ route('staff.edit', $member) }}" class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i> Edit</a>
+                            <a href="{{ route('staff.edit', $member) }}" class="btn btn-sm btn-primary rounded-pill px-3"><i class="bi bi-pencil"></i> Edit</a>
                             <form action="{{ route('staff.destroy', $member) }}" method="POST" class="d-inline delete-form" data-confirm-message="Delete this staff member?">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
+                                <button class="btn btn-sm btn-danger rounded-pill px-3"><i class="bi bi-trash"></i> Delete</button>
                             </form>
                         </td>
                     </tr>
