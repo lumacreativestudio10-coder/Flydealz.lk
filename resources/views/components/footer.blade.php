@@ -54,7 +54,7 @@
                 <ul class="space-y-4 text-gray-300">
                     <li class="flex items-start">
                         <i class="fa-solid fa-location-dot mt-1.5 mr-3 text-primary-pink"></i>
-                        <a href="https://maps.google.com/?q=178+Main+Street+Eravur+Sri+Lanka" target="_blank" class="hover:text-primary-pink transition-colors">#178, Main Street,<br>Eravur, Sri Lanka, 30300</a>
+                        <a href="https://maps.google.com/?q=178+Main+Street+Eravur+Sri+Lanka" target="_blank" class="hover:text-primary-pink transition-colors">178, Main Street,<br>Eravur, Sri Lanka, 30300</a>
                     </li>
                     <li class="flex items-center">
                         <i class="fa-solid fa-phone mr-3 text-primary-pink"></i>

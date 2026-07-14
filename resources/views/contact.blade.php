@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <h4 style="margin-bottom: 0.5rem; color: var(--text-dark);">Office Address</h4>
-                    <p style="color: var(--text-muted); line-height: 1.6;">#178, Main Street,<br>Eravur,<br>Sri Lanka, 30300</p>
+                    <p style="color: var(--text-muted); line-height: 1.6;">178, Main Street,<br>Eravur,<br>Sri Lanka, 30300</p>
                 </div>
             </div>
             

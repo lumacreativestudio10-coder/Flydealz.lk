@@ -32,7 +32,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-navy-blue mb-1">Office Address</h4>
-                                <a href="https://maps.google.com/?q=178+Main+Street+Eravur+Sri+Lanka" target="_blank" class="text-slate-600 text-sm leading-relaxed hover:text-primary-pink transition-colors">#178, Main Street,<br>Eravur,<br>Sri Lanka, 30300</a>
+                                <a href="https://maps.google.com/?q=178+Main+Street+Eravur+Sri+Lanka" target="_blank" class="text-slate-600 text-sm leading-relaxed hover:text-primary-pink transition-colors">178, Main Street,<br>Eravur,<br>Sri Lanka, 30300</a>
                             </div>
                         </div>
 
