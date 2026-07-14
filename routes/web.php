@@ -27,11 +27,13 @@ Route::get('/about', function () {
 });
 
 Route::get('/staff', function () {
-    return view('pages.staff');
+    $staff = \App\Models\Staff::all();
+    return view('pages.staff', compact('staff'));
 });
 
 Route::get('/gallery', function () {
-    return view('pages.gallery');
+    $images = \App\Models\Gallery::all();
+    return view('pages.gallery', compact('images'));
 });
 
 Route::get('/contact', function () {
@@ -44,6 +46,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
     Route::resource('packages', App\Http\Controllers\PackageController::class);
     Route::resource('destinations', App\Http\Controllers\DestinationController::class);
+    Route::resource('staff', App\Http\Controllers\StaffController::class);
+    Route::resource('gallery', App\Http\Controllers\GalleryController::class)->except(['show', 'edit', 'update']);
     Route::resource('bookings', App\Http\Controllers\BookingController::class);
     Route::get('contacts', [App\Http\Controllers\ContactController::class, 'index'])->name('contacts.index');
     Route::put('contacts/{contact}', [App\Http\Controllers\ContactController::class, 'update'])->name('contacts.update');

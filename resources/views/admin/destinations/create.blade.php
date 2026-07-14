@@ -18,6 +18,7 @@
             <div class="mb-3">
                 <label class="form-label">Image</label>
                 <input type="file" name="image" class="form-control" accept="image/*">
+                <small class="text-muted">Maximum file size: 5MB. Image will be converted to WEBP automatically.</small>
             </div>
 
             <div class="mb-3">

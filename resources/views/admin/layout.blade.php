@@ -46,6 +46,8 @@
             <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}"><i class="bi bi-journal-check me-2"></i> Bookings</a>
             <a href="{{ route('packages.index') }}" class="{{ request()->routeIs('packages.*') ? 'active' : '' }}"><i class="bi bi-box-seam me-2"></i> Packages</a>
             <a href="{{ route('destinations.index') }}" class="{{ request()->routeIs('destinations.*') ? 'active' : '' }}"><i class="bi bi-geo-alt me-2"></i> Destinations</a>
+            <a href="{{ route('staff.index') }}" class="{{ request()->routeIs('staff.*') ? 'active' : '' }}"><i class="bi bi-people me-2"></i> Staff</a>
+            <a href="{{ route('gallery.index') }}" class="{{ request()->routeIs('gallery.*') ? 'active' : '' }}"><i class="bi bi-images me-2"></i> Gallery</a>
             <a href="{{ route('contacts.index') }}" class="{{ request()->routeIs('contacts.*') ? 'active' : '' }}"><i class="bi bi-envelope me-2"></i> Inquiries</a>
             <a href="{{ route('admin.profile') }}" class="{{ request()->routeIs('admin.profile') ? 'active' : '' }}"><i class="bi bi-person-gear me-2"></i> Profile Settings</a>
             <hr class="text-secondary">
@@ -65,6 +67,8 @@
                 <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}"><i class="bi bi-journal-check me-2"></i> Bookings</a>
                 <a href="{{ route('packages.index') }}" class="{{ request()->routeIs('packages.*') ? 'active' : '' }}"><i class="bi bi-box-seam me-2"></i> Packages</a>
                 <a href="{{ route('destinations.index') }}" class="{{ request()->routeIs('destinations.*') ? 'active' : '' }}"><i class="bi bi-geo-alt me-2"></i> Destinations</a>
+                <a href="{{ route('staff.index') }}" class="{{ request()->routeIs('staff.*') ? 'active' : '' }}"><i class="bi bi-people me-2"></i> Staff</a>
+                <a href="{{ route('gallery.index') }}" class="{{ request()->routeIs('gallery.*') ? 'active' : '' }}"><i class="bi bi-images me-2"></i> Gallery</a>
                 <a href="{{ route('contacts.index') }}" class="{{ request()->routeIs('contacts.*') ? 'active' : '' }}"><i class="bi bi-envelope me-2"></i> Inquiries</a>
                 <a href="{{ route('admin.profile') }}" class="{{ request()->routeIs('admin.profile') ? 'active' : '' }}"><i class="bi bi-person-gear me-2"></i> Profile Settings</a>
                 <hr class="text-secondary">

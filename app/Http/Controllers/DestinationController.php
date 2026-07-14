@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Destination;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class DestinationController extends Controller
 {
@@ -23,13 +24,20 @@ class DestinationController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|max:2048'
+            'image' => 'nullable|image|max:5120'
         ]);
         
         $validated['is_popular'] = $request->has('is_popular');
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('destinations', 'public');
+            $image = $request->file('image');
+            $filename = uniqid() . '.webp';
+            $path = 'destinations/' . $filename;
+            
+            $img = Image::make($image)->encode('webp', 90);
+            \Illuminate\Support\Facades\Storage::disk('public')->put($path, $img);
+            
+            $validated['image'] = $path;
         }
 
         Destination::create($validated);
@@ -46,7 +54,7 @@ class DestinationController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|max:2048'
+            'image' => 'nullable|image|max:5120'
         ]);
 
         $validated['is_popular'] = $request->has('is_popular');
@@ -55,7 +63,14 @@ class DestinationController extends Controller
             if ($destination->image) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($destination->image);
             }
-            $validated['image'] = $request->file('image')->store('destinations', 'public');
+            $image = $request->file('image');
+            $filename = uniqid() . '.webp';
+            $path = 'destinations/' . $filename;
+            
+            $img = Image::make($image)->encode('webp', 90);
+            \Illuminate\Support\Facades\Storage::disk('public')->put($path, $img);
+            
+            $validated['image'] = $path;
         }
 
         $destination->update($validated);

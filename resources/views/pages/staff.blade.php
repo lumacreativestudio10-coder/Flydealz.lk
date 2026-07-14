@@ -19,47 +19,24 @@
 <section class="py-20 bg-light-bg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            
-            <!-- Staff 1 -->
+            @forelse($staff as $member)
             <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group text-center p-8">
                 <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-4 border-light-bg group-hover:border-primary-pink transition-colors">
-                    <img src="https://ui-avatars.com/api/?name=John+Doe&background=041E46&color=fff&size=150" alt="John Doe" class="w-full h-full object-cover">
+                    @if($member->image)
+                        <img src="{{ asset('storage/' . $member->image) }}" alt="{{ $member->name }}" class="w-full h-full object-cover">
+                    @else
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode($member->name) }}&background=041E46&color=fff&size=150" alt="{{ $member->name }}" class="w-full h-full object-cover">
+                    @endif
                 </div>
-                <h3 class="text-xl font-bold text-navy-blue mb-1">John Doe</h3>
-                <p class="text-primary-pink font-medium text-sm mb-4">Senior Travel Consultant</p>
-                <p class="text-slate-500 text-sm">Expert in luxury travel, corporate bookings, and international visa assistance.</p>
+                <h3 class="text-xl font-bold text-navy-blue mb-1">{{ $member->name }}</h3>
+                <p class="text-primary-pink font-medium text-sm mb-4">{{ $member->role }}</p>
+                <p class="text-slate-500 text-sm">{{ $member->description }}</p>
             </div>
-
-            <!-- Staff 2 -->
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group text-center p-8">
-                <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-4 border-light-bg group-hover:border-primary-pink transition-colors">
-                    <img src="https://ui-avatars.com/api/?name=Jane+Smith&background=041E46&color=fff&size=150" alt="Jane Smith" class="w-full h-full object-cover">
-                </div>
-                <h3 class="text-xl font-bold text-navy-blue mb-1">Jane Smith</h3>
-                <p class="text-primary-pink font-medium text-sm mb-4">Customer Relations Executive</p>
-                <p class="text-slate-500 text-sm">Ensuring every client gets the best possible service and personalized attention.</p>
+            @empty
+            <div class="col-span-full text-center text-slate-500 py-10">
+                <p>No staff members found.</p>
             </div>
-
-            <!-- Staff 3 -->
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group text-center p-8">
-                <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-4 border-light-bg group-hover:border-primary-pink transition-colors">
-                    <img src="https://ui-avatars.com/api/?name=Alan+Walker&background=041E46&color=fff&size=150" alt="Alan Walker" class="w-full h-full object-cover">
-                </div>
-                <h3 class="text-xl font-bold text-navy-blue mb-1">Alan Walker</h3>
-                <p class="text-primary-pink font-medium text-sm mb-4">Booking Specialist</p>
-                <p class="text-slate-500 text-sm">Specialist in finding the best flight routes and exclusive discounted fares.</p>
-            </div>
-            
-            <!-- Staff 4 -->
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group text-center p-8">
-                <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-4 border-light-bg group-hover:border-primary-pink transition-colors">
-                    <img src="https://ui-avatars.com/api/?name=Sarah+Lee&background=041E46&color=fff&size=150" alt="Sarah Lee" class="w-full h-full object-cover">
-                </div>
-                <h3 class="text-xl font-bold text-navy-blue mb-1">Sarah Lee</h3>
-                <p class="text-primary-pink font-medium text-sm mb-4">Operations Manager</p>
-                <p class="text-slate-500 text-sm">Overseeing daily operations and ensuring high standards of corporate travel management.</p>
-            </div>
-
+            @endforelse
         </div>
     </div>
 </section>
