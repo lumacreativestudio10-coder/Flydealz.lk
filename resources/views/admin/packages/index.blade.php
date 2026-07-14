@@ -25,7 +25,7 @@
                     <tr>
                         <td>{{ $package->title }}</td>
                         <td>{{ $package->destination->name ?? 'N/A' }}</td>
-                        <td>${{ number_format($package->price, 2) }}</td>
+                        <td>LKR {{ number_format($package->price, 2) }}</td>
                         <td>{{ $package->duration_days }} Days</td>
                         <td>
                             @if($package->status == 'active')
@@ -36,7 +36,7 @@
                         </td>
                         <td>
                             <a href="{{ route('packages.edit', $package) }}" class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i> Edit</a>
-                            <form action="{{ route('packages.destroy', $package) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this package?');">
+                            <form action="{{ route('packages.destroy', $package) }}" method="POST" class="d-inline delete-form" data-confirm-message="Delete this package?">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>

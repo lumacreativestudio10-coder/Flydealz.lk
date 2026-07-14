@@ -26,7 +26,7 @@
                         <td>{{ Str::limit($destination->description, 50) }}</td>
                         <td>
                             <a href="{{ route('destinations.edit', $destination) }}" class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i> Edit</a>
-                            <form action="{{ route('destinations.destroy', $destination) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this destination?');">
+                            <form action="{{ route('destinations.destroy', $destination) }}" method="POST" class="d-inline delete-form" data-confirm-message="Delete this destination?">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
